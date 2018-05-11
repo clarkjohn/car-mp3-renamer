@@ -27,7 +27,7 @@ enum class Mp3RenameStrategy {
                 //just return original file name
                 return mp3File.name
             } else {
-                return cleanTrack(Mp3FileUtil.getTrack(mp3File).trim(), 2).padStart(2, '0') + " " + mp3Title + ".mp3"
+                return cleanTrack(Mp3FileUtil.getTrack(mp3File).trim(), 2).padStart(2, '0') + " - " + mp3Title + ".mp3"
             }
         }
 
