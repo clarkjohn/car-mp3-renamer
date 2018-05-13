@@ -7,11 +7,13 @@ val NUMERIC_REGEX = "\\d+".toRegex()
 //val DISPLAY_DIVIDER_CHARACTER = "-"
 
 //Change these
-val mp3RootFolder = File("D:\\temp\\car_audio_usb_test\\test")
+val mp3RootFolder = File("D:\\temp\\car-mp3-renamer")
 val displayType = CarDisplayType.TOYOTA
 val renameFiles = true
 
 fun main(args: Array<String>) {
+
+    require(mp3RootFolder.isDirectory)
 
     processSubfolders(mp3RootFolder, displayType)
     println("\nRenaming mp3 files and folders finished")
@@ -38,7 +40,7 @@ private fun renameFolder(carDisplayType: CarDisplayType, folderProperties: Folde
     println("renaming folder=${folder.name} to=$newFolderName")
 
     if (renameFiles && newFolderName != folder.name) {
-        folder.renameTo(getNewFileName(folder, newFolderName, 0))
+        folder.renameTo( File(newFolderName))
     }
 }
 
@@ -53,8 +55,8 @@ private fun renameFiles(carDisplayType: CarDisplayType, folderProperties: Folder
             val newMp3FileName = carDisplayType.mp3RenameStrategy.rename(file, folderProperties)
             println("renaming file=${file.name.padEnd(folderProperties.largestFileLength)} to=$newMp3FileName")
 
-            if (renameFiles) {
-                file.renameTo(getNewFileName(file, newMp3FileName, 0))
+            if (renameFiles && newMp3FileName != newMp3FileName) {
+                file.renameTo( File(newMp3FileName))
             }
 
         } else {
@@ -66,15 +68,6 @@ private fun renameFiles(carDisplayType: CarDisplayType, folderProperties: Folder
 }
 
 private fun isMp3File(file: File) = file.name.substring(file.name.lastIndexOf(".") + 1).equals("mp3", true)
-
-private fun getNewFileName(file: File, newMp3FileName: String, numberTriesToRename: Int): File? {
-
-    val newFile = File(file.parent + File.separatorChar + newMp3FileName + (if (numberTriesToRename == 0) "" else numberTriesToRename))
-    if (newFile.exists()) {
-        return (getNewFileName(file, newMp3FileName, if (numberTriesToRename == 0) 1 else numberTriesToRename + 1))
-    }
-    return newFile
-}
 
 private fun getFolderProperties(folder: File): FolderProperties {
 
@@ -106,7 +99,7 @@ private fun getFolderProperties(folder: File): FolderProperties {
 
                 if (sampleAlbumName == "") {
                     sampleAlbumName = album
-                } else if (sampleAlbumName != album) {
+                } else if (!sampleAlbumName.equals(album, true)) {
                     allFileInFolderShareSameAlbumName = false
                 } else {
                     //do nothing; allFileInFolderShareSameAlbumName is still true
