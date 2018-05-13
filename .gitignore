@@ -41,5 +41,4 @@ build/
 
 *.mp3
 /target/*
-src/test/resources/sample/*
 /.idea/*
