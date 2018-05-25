@@ -7,9 +7,9 @@ val NUMERIC_REGEX = "\\d+".toRegex()
 //val DISPLAY_DIVIDER_CHARACTER = "-"
 
 //Change these
-val mp3RootFolder = File("D:\\temp\\car-mp3-renamer")
+val mp3RootFolder = File("D:\\\\temp\\\\car-mp3-renamer")
 val displayType = CarDisplayType.TOYOTA
-val renameFiles = true
+val renameFiles = false
 
 fun main(args: Array<String>) {
 
@@ -40,7 +40,7 @@ private fun renameFolder(carDisplayType: CarDisplayType, folderProperties: Folde
     println("renaming folder=${folder.name} to=$newFolderName")
 
     if (renameFiles && newFolderName != folder.name) {
-        folder.renameTo( File(newFolderName))
+        folder.renameTo( File(folder.parentFile.path + File.separatorChar + newFolderName))
     }
 }
 
@@ -55,8 +55,8 @@ private fun renameFiles(carDisplayType: CarDisplayType, folderProperties: Folder
             val newMp3FileName = carDisplayType.mp3RenameStrategy.rename(file, folderProperties)
             println("renaming file=${file.name.padEnd(folderProperties.largestFileLength)} to=$newMp3FileName")
 
-            if (renameFiles && newMp3FileName != newMp3FileName) {
-                file.renameTo( File(newMp3FileName))
+            if (renameFiles && file.name != newMp3FileName) {
+                file.renameTo( File(file.parent + File.separatorChar + newMp3FileName))
             }
 
         } else {
