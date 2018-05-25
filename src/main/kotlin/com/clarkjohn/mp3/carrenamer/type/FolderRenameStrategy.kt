@@ -8,7 +8,7 @@ import java.time.Year
 const val PREFIX_CHARACTER_TO_SORT_2_DIGIT_YEAR_BEFORE_YEAR_2000 = "."
 
 //TODO move this into CarDisplayType
-const val DISPLAY_ARTIST_MAX_SIZE = 14
+const val DISPLAY_ARTIST_MAX_SIZE = 9
 
 val WORD_REGEX = "\\W+".toRegex()
 val FIRST_LETTER_OF_WORD_REGEX = "\\B.|\\P{L}".toRegex()
